@@ -38,17 +38,14 @@ void draw() {
     start++;
   }
   fill(255);
+  ellipse(xmoving, ymoving, 10, 10);
   if (xpos < 127) {
-    ellipse(xmoving, ymoving, 10, 10);
     xmoving-=5;
   } else if (xpos > 127) {
-    ellipse(xmoving, ymoving, 10, 10);
     xmoving+=5;
   } else if (ypos > 121) {
-    ellipse(xmoving, ymoving, 10, 10);
     ymoving+=5;
   } else if (ypos < 121) {
-    ellipse(xmoving, ymoving, 10, 10);
     ymoving-=5;
   }
 }
