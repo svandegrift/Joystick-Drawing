@@ -9,6 +9,7 @@ int serialCount = 0;     // A count of how many bytes we receive
 float xpos, ypos;     // Starting position of the sketch
 float refresh;
 boolean firstContact = false;  // Whether we've heard from processing
+float xmoving, ymoving, start;
 
 
 void setup() {
@@ -18,11 +19,29 @@ void setup() {
   String portName = Serial.list()[2];
   myPort = new Serial(this, portName, 9600);
   pg = createGraphics(255, 255);
+  xmoving = width/2;
+  ymoving = height/2;
+  start = 0;
 }
 void draw() {
-  
-  noFill();
-  polygon((width/2)+(xpos-127)*5.65, (height/2)+(ypos-121)*3.7, 20, 8);  
+  if (start == 0){
+    delay(3000);
+    start++;
+  }
+  fill(255);
+  if(xpos < 127){
+    ellipse(xmoving,ymoving,10,10);
+    xmoving-=5;
+  }else if(xpos > 127){
+    ellipse(xmoving,ymoving,10,10);
+    xmoving+=5;
+  }else if(ypos > 121){
+    ellipse(xmoving,ymoving,10,10);
+    ymoving+=5;
+  }else if(ypos < 121){
+    ellipse(xmoving,ymoving,10,10);
+    ymoving-=5;
+  }
 }
 void serialEvent(Serial myPort) {
   int inByte = myPort.read();
@@ -36,8 +55,8 @@ void serialEvent(Serial myPort) {
     serialInArray[serialCount] = inByte;
     serialCount++;
     if (serialCount > 2 ) {
-      xpos = serialInArray[0];
-      ypos = serialInArray[1];
+      xpos = serialInArray[0]; // 127 is Middle
+      ypos = serialInArray[1]; // 121 is Middle
       //xpos = map(serialInArray[0], 0, 1000, 0, 1000);
       //ypos = map(serialInArray[1], 0, 1000, 0, 1000);
       refresh = serialInArray[2];
