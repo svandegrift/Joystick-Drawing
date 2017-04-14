@@ -1,3 +1,5 @@
+PGraphics pg;
+
 import processing.serial.*; // Imports Processing
 Serial myPort;  // Creates port for Processing
 
@@ -10,23 +12,22 @@ boolean firstContact = false;  // Whether we've heard from processing
 
 
 void setup() {
-  size(1024,1024); // Stage size 
+  fullScreen(); // Stage size 
   background(255);// No border on the next thing drawn
-  // Set the starting position of the ball (middle of the stage)
-  
-
-  // Print a list of the serial ports, for debugging purposes:
   println(Serial.list());
-  // I know that the first port in the serial list on my mac
-  // is always my FTDI adaptor, so I open Serial.list()[0].
-  // On Windows machines, this generally opens COM1.
-  // Open whatever port is the one you're using.
   String portName = Serial.list()[2];
   myPort = new Serial(this, portName, 9600);
+  pg = createGraphics(255, 255);
 }
 void draw() {
+  
   fill(0);
-  ellipse(xpos, ypos, 5, 5);
+  ellipse((width/2)+xpos-127, (height/2)+ypos-121, 5, 5);
+  /*if(refresh == 0){
+    background(255);
+  }
+  */
+  
 }
 void serialEvent(Serial myPort) {
   // read a byte from the serial port:
@@ -49,10 +50,9 @@ void serialEvent(Serial myPort) {
     if (serialCount > 2 ) {
       xpos = serialInArray[0];
       ypos = serialInArray[1];
+      xpos = map(serialInArray[0], 0, 1000, 0, 1000);
+      ypos = map(serialInArray[1], 0, 1000, 0, 1000);
       refresh = serialInArray[2];
-      xpos = map(serialInArray[0], 0, 1024, 0, width);
-      ypos = map(serialInArray[1], 0, 1024, 0, height);
-      //fgcolor = serialInArray[2];
       // print the values (for debugging purposes only):
       println(xpos + " " + ypos + " " + refresh);
       // Send a capital A to request new sensor readings:
