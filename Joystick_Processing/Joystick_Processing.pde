@@ -25,7 +25,7 @@ void setup() {
 }
 void draw() {
   if (start == 0){
-    delay(3000);
+    delay(2000);
     start++;
   }
   fill(255);
