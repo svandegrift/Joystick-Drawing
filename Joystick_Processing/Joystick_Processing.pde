@@ -1,23 +1,22 @@
-PGraphics pg;
-// This example code is in the public domain.
-import processing.serial.*;
-int bgcolor;   // Background color
-int fgcolor;   // Fill color
-Serial myPort;      // The serial port
+import processing.serial.*; // Imports Processing
+Serial myPort;  // Creates port for Processing
+
+
 float[] serialInArray = new float[3]; // Where we'll put what we receive
 int serialCount = 0;     // A count of how many bytes we receive
-float xpos, ypos;     // Starting position of the ball
-boolean firstContact = false;  // Whether we've heard from the
-// microcontroller
+float xpos, ypos;     // Starting position of the sketch
+float refresh;
+boolean firstContact = false;  // Whether we've heard from processing
+
+
 void setup() {
-  fullScreen(); // Stage size 
+  size(1024,1024); // Stage size 
   background(255);// No border on the next thing drawn
   // Set the starting position of the ball (middle of the stage)
-  pg = createGraphics(1920, 1080);
+  
 
   // Print a list of the serial ports, for debugging purposes:
   println(Serial.list());
-  
   // I know that the first port in the serial list on my mac
   // is always my FTDI adaptor, so I open Serial.list()[0].
   // On Windows machines, this generally opens COM1.
@@ -28,7 +27,6 @@ void setup() {
 void draw() {
   fill(0);
   ellipse(xpos, ypos, 5, 5);
-  delay(10);
 }
 void serialEvent(Serial myPort) {
   // read a byte from the serial port:
@@ -48,14 +46,15 @@ void serialEvent(Serial myPort) {
     serialInArray[serialCount] = inByte;
     serialCount++;
     // If we have 3 bytes:
-    if (serialCount >= 2 ) {
+    if (serialCount > 2 ) {
       xpos = serialInArray[0];
       ypos = serialInArray[1];
-      xpos = map(serialInArray[0], 0, 255, 0, width);
-      ypos = map(serialInArray[1], 0, 255, 0, height);
+      refresh = serialInArray[2];
+      xpos = map(serialInArray[0], 0, 1024, 0, width);
+      ypos = map(serialInArray[1], 0, 1024, 0, height);
       //fgcolor = serialInArray[2];
       // print the values (for debugging purposes only):
-      println(xpos + " " + ypos + " " + fgcolor);
+      println(xpos + " " + ypos + " " + refresh);
       // Send a capital A to request new sensor readings:
       myPort.write('A');
       // Reset serialCount:
