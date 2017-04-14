@@ -48,6 +48,20 @@ void draw() {
   } else if (ypos < 121) {
     ymoving-=5;
   }
+  if (xpos < 127 && ypos < 121) {
+    xmoving-=3;
+    ymoving-=3;
+  }else if (xpos > 127 && ypos > 121) {
+    xmoving+=3;
+    ymoving+=3;
+  }else if (xpos < 127 && ypos > 121) {
+    xmoving-=3;
+    ymoving+=3;
+  }
+  else if (xpos > 127 && ypos < 121) {
+    xmoving+=3;
+    ymoving-=3;
+  }
 }
 void serialEvent(Serial myPort) {
   int inByte = myPort.read();
