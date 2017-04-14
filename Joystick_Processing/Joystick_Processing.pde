@@ -1,3 +1,4 @@
+/// ORIGINAL ///
 PGraphics pg;
 PFont f;
 
@@ -20,34 +21,11 @@ void setup() {
   String portName = Serial.list()[2];
   myPort = new Serial(this, portName, 9600);
   pg = createGraphics(255, 255);
-  f = createFont("Helvectica", 64, true);
-  xmoving = width/2;
-  ymoving = height/2;
-  start = 0;
-  textSize(64);
-  textFont(f);
-  fill(0);
-  text("LOADING...", width/2-100, height/2);
+  
 }
 void draw() {
-
-  if (start == 0) {
-
-    delay(2000);
-    background(255);
-    start++;
-  }
-  fill(255);
-  ellipse(xmoving, ymoving, 10, 10);
-  if (xpos < 127) {
-    xmoving-=5;
-  } else if (xpos > 127) {
-    xmoving+=5;
-  } else if (ypos > 121) {
-    ymoving+=5;
-  } else if (ypos < 121) {
-    ymoving-=5;
-  }
+  noFill();
+  polygon((width/2)+(xpos-127)*5.65, (height/2)+(ypos-121)*3.7, 20, 8);
 }
 void serialEvent(Serial myPort) {
   int inByte = myPort.read();
