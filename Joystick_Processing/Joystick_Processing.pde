@@ -21,37 +21,25 @@ void setup() {
 }
 void draw() {
   
-  fill(0);
-  ellipse((width/2)+xpos-127, (height/2)+ypos-121, 5, 5);
-  /*if(refresh == 0){
-    background(255);
-  }
-  */
-  
+  noFill();
+  polygon((width/2)+(xpos-127)*5.65, (height/2)+(ypos-121)*3.7, 20, 8);  
 }
 void serialEvent(Serial myPort) {
-  // read a byte from the serial port:
   int inByte = myPort.read();
-  // if this is the first byte received, and it's an A,
-  // clear the serial buffer and note that you've
-  // had first contact from the microcontroller.
-  // Otherwise, add the incoming byte to the array:
   if (firstContact == false) {
     if (inByte == 'A') {
-      myPort.clear();   // clear the serial port buffer
-      firstContact = true;  // you've had first contact from the microcontroller
-      myPort.write('A');  // ask for more
+      myPort.clear();   
+      firstContact = true;  
+      myPort.write('A');  
     }
   } else {
-    // Add the latest byte from the serial port to array:
     serialInArray[serialCount] = inByte;
     serialCount++;
-    // If we have 3 bytes:
     if (serialCount > 2 ) {
       xpos = serialInArray[0];
       ypos = serialInArray[1];
-      xpos = map(serialInArray[0], 0, 1000, 0, 1000);
-      ypos = map(serialInArray[1], 0, 1000, 0, 1000);
+      //xpos = map(serialInArray[0], 0, 1000, 0, 1000);
+      //ypos = map(serialInArray[1], 0, 1000, 0, 1000);
       refresh = serialInArray[2];
       // print the values (for debugging purposes only):
       println(xpos + " " + ypos + " " + refresh);
@@ -60,5 +48,20 @@ void serialEvent(Serial myPort) {
       // Reset serialCount:
       serialCount = 0;
     }
+  }
+}
+void polygon(float x, float y, float radius, int npoints) {
+  float angle = TWO_PI / npoints;
+  beginShape();
+  for (float a = 0; a < TWO_PI; a += angle) {
+    float sx = x + cos(a) * radius;
+    float sy = y + sin(a) * radius;
+    vertex(sx, sy);
+  }
+  endShape(CLOSE);
+}
+void keyPressed(){
+  if(key == 'r'){
+    background(255);
   }
 }
