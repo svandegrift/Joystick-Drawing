@@ -1,4 +1,5 @@
 PGraphics pg;
+PFont f;
 
 import processing.serial.*; // Imports Processing
 Serial myPort;  // Creates port for Processing
@@ -19,27 +20,35 @@ void setup() {
   String portName = Serial.list()[2];
   myPort = new Serial(this, portName, 9600);
   pg = createGraphics(255, 255);
+  f = createFont("Helvectica", 64, true);
   xmoving = width/2;
   ymoving = height/2;
   start = 0;
+  textSize(64);
+  textFont(f);
+  fill(0);
+  text("LOADING...", width/2-100, height/2);
 }
 void draw() {
-  if (start == 0){
+
+  if (start == 0) {
+
     delay(2000);
+    background(255);
     start++;
   }
   fill(255);
-  if(xpos < 127){
-    ellipse(xmoving,ymoving,10,10);
+  if (xpos < 127) {
+    ellipse(xmoving, ymoving, 10, 10);
     xmoving-=5;
-  }else if(xpos > 127){
-    ellipse(xmoving,ymoving,10,10);
+  } else if (xpos > 127) {
+    ellipse(xmoving, ymoving, 10, 10);
     xmoving+=5;
-  }else if(ypos > 121){
-    ellipse(xmoving,ymoving,10,10);
+  } else if (ypos > 121) {
+    ellipse(xmoving, ymoving, 10, 10);
     ymoving+=5;
-  }else if(ypos < 121){
-    ellipse(xmoving,ymoving,10,10);
+  } else if (ypos < 121) {
+    ellipse(xmoving, ymoving, 10, 10);
     ymoving-=5;
   }
 }
@@ -49,7 +58,7 @@ void serialEvent(Serial myPort) {
     if (inByte == 'A') {
       myPort.clear();   
       firstContact = true;  
-      myPort.write('A');  
+      myPort.write('A');
     }
   } else {
     serialInArray[serialCount] = inByte;
@@ -79,8 +88,8 @@ void polygon(float x, float y, float radius, int npoints) {
   }
   endShape(CLOSE);
 }
-void keyPressed(){
-  if(key == 'r'){
+void keyPressed() {
+  if (key == 'r') {
     background(255);
   }
 }
