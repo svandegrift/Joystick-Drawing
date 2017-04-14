@@ -21,7 +21,7 @@ void setup() {
   // is always my FTDI adaptor, so I open Serial.list()[0].
   // On Windows machines, this generally opens COM1.
   // Open whatever port is the one you're using.
-  String portName = Serial.list()[1];
+  String portName = Serial.list()[2];
   myPort = new Serial(this, portName, 9600);
 }
 void draw() {
