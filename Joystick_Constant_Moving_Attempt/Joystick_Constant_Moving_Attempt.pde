@@ -26,8 +26,9 @@ void setup() {
   start = 0;
   textSize(64);
   textFont(f);
+  textAlign(CENTER);
   fill(0);
-  text("LOADING...", width/2-100, height/2);
+  text("LOADING...", width/2, height/2);
 }
 void draw() {
 
