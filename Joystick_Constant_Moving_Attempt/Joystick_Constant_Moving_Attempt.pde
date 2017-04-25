@@ -40,13 +40,26 @@ void draw() {
   fill(255);
   ellipse(xmoving, ymoving, 10, 10);
   if (xpos < 127) {
-    xmoving-=5;
+    xmoving-=5; //Left
   } else if (xpos > 127) {
-    xmoving+=5;
-  } else if (ypos > 121) {
-    ymoving+=5;
-  } else if (ypos < 121) {
-    ymoving-=5;
+    xmoving+=5; //Right
+  } else if (ypos > 122) {
+    ymoving+=5;  //Down
+  } else if (ypos < 122) {
+    ymoving-=5;   
+  }
+  if (xpos < 127 && ypos < 122) {
+    xmoving-=3;
+    ymoving-=3;
+  }else if (xpos > 127 && ypos > 122) {
+    xmoving+=3;
+    ymoving+=3;
+  }else if (xpos < 127 && ypos > 122) {
+    xmoving-=3;
+    ymoving+=3;
+  }else if (xpos > 127 && ypos < 122){
+    xmoving+=3;
+    ymoving-=3;
   }
 }
 void serialEvent(Serial myPort) {
