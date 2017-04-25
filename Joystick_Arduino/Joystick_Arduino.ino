@@ -1,7 +1,7 @@
 //test
 int firstSensor = 0; // first analog sensor
 int secondSensor = 0; // second analog sensor
-int thirdSensor = 0; // digital sensor
+int thirdSensor = 0;
 int inByte = 0;   // incoming serial byte
 void setup()
 {
@@ -10,7 +10,7 @@ void setup()
  while (!Serial) {
  ; // wait for serial port to connect. Needed for Leonardo only
  }
- 
+ pinMode(2, INPUT);
   // digital sensor is on digital pin 2
  establishContact(); // send a byte to establish contact until receiver
       // responds
@@ -28,8 +28,7 @@ void loop()
  delay(10);
  // read second analog input, divide by 4 to make the range 0-255:
  secondSensor = analogRead(1)/4;
-
- thirdSensor = analogRead(2)/4;
+ thirdSensor = map(digitalRead(2), 0, 1, 0, 255);
  // send sensor values:
  Serial.write(firstSensor);
  Serial.write(secondSensor);
