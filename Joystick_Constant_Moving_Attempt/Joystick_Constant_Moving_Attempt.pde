@@ -14,7 +14,7 @@ float xmoving, ymoving, start;
 
 
 void setup() {
-  fullScreen(); // Stage size
+  fullScreen(); // Stage size 
   background(255);// No border on the next thing drawn
   println(Serial.list());
   String portName = Serial.list()[2];
@@ -26,9 +26,8 @@ void setup() {
   start = 0;
   textSize(64);
   textFont(f);
-  textAlign(CENTER);
   fill(0);
-  text("LOADING...", width/2, height/2);
+  text("LOADING...", width/2-100, height/2);
 }
 void draw() {
 
@@ -43,13 +42,6 @@ void draw() {
   if (xpos < 127) {
     xmoving-=5; //Left
   } else if (xpos > 127) {
-<<<<<<< HEAD
-    xmoving+=5; // x Going Down
-  } else if (ypos > 122) {
-    ymoving+=5; // Y going down
-  } else if (ypos < 121) {
-    ymoving-=5;
-=======
     xmoving+=5; //Right
   } else if (ypos > 122) {
     ymoving+=5;  //Down
@@ -68,41 +60,27 @@ void draw() {
   }else if (xpos > 127 && ypos < 122){
     xmoving+=3;
     ymoving-=3;
->>>>>>> master
-  }
-  if (xpos < 127 && ypos < 121) {
-    xmoving-=3;
-    ymoving-=3;
-  }else if (xpos > 127 && ypos > 122) {
-    xmoving+=3;
-    ymoving+=3;
-  }else if (xpos < 127 && ypos > 122) {
-    xmoving-=3;
-    ymoving+=3;
-  }
-  else if (xpos > 127 && ypos < 121) {
-    xmoving+=3;
-    ymoving-=3;
   }
 }
 void serialEvent(Serial myPort) {
   int inByte = myPort.read();
   if (firstContact == false) {
     if (inByte == 'A') {
-      myPort.clear();
-      firstContact = true;
+      myPort.clear();   
+      firstContact = true;  
       myPort.write('A');
     }
   } else {
     serialInArray[serialCount] = inByte;
     serialCount++;
-    if (serialCount >= 2 ) {
+    if (serialCount > 2 ) {
       xpos = serialInArray[0]; // 127 is Middle
       ypos = serialInArray[1]; // 121 is Middle
       //xpos = map(serialInArray[0], 0, 1000, 0, 1000);
       //ypos = map(serialInArray[1], 0, 1000, 0, 1000);
+      refresh = serialInArray[2];
       // print the values (for debugging purposes only):
-      println(xpos + " " + ypos + " ");
+      println(xpos + " " + ypos + " " + refresh);
       // Send a capital A to request new sensor readings:
       myPort.write('A');
       // Reset serialCount:
@@ -122,8 +100,6 @@ void polygon(float x, float y, float radius, int npoints) {
 }
 void keyPressed() {
   if (key == 'r') {
-    saveFrame("pic-####.png");
-    delay(300);
     background(255);
   }
 }
