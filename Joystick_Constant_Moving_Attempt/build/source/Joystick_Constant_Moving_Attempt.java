@@ -1,7 +1,25 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import processing.serial.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class Joystick_Constant_Moving_Attempt extends PApplet {
+
 PGraphics pg;
 PFont f;
 
-import processing.serial.*; // Imports Processing
+ // Imports Processing
 Serial myPort;  // Creates port for Processing
 
 
@@ -13,8 +31,8 @@ boolean firstContact = false;  // Whether we've heard from processing
 float xmoving, ymoving, start;
 
 
-void setup() {
-  fullScreen(); // Stage size
+public void setup() {
+   // Stage size
   background(255);// No border on the next thing drawn
   println(Serial.list());
   String portName = Serial.list()[2];
@@ -30,7 +48,7 @@ void setup() {
   fill(0);
   text("LOADING...", width/2, height/2);
 }
-void draw() {
+public void draw() {
 
   if (start == 0) {
 
@@ -41,34 +59,13 @@ void draw() {
   fill(255);
   ellipse(xmoving, ymoving, 10, 10);
   if (xpos < 127) {
-    xmoving-=5; //Left
+    xmoving-=5;
   } else if (xpos > 127) {
-<<<<<<< HEAD
     xmoving+=5; // x Going Down
   } else if (ypos > 122) {
     ymoving+=5; // Y going down
   } else if (ypos < 121) {
     ymoving-=5;
-=======
-    xmoving+=5; //Right
-  } else if (ypos > 122) {
-    ymoving+=5;  //Down
-  } else if (ypos < 122) {
-    ymoving-=5;   
-  }
-  if (xpos < 127 && ypos < 122) {
-    xmoving-=3;
-    ymoving-=3;
-  }else if (xpos > 127 && ypos > 122) {
-    xmoving+=3;
-    ymoving+=3;
-  }else if (xpos < 127 && ypos > 122) {
-    xmoving-=3;
-    ymoving+=3;
-  }else if (xpos > 127 && ypos < 122){
-    xmoving+=3;
-    ymoving-=3;
->>>>>>> master
   }
   if (xpos < 127 && ypos < 121) {
     xmoving-=3;
@@ -85,7 +82,7 @@ void draw() {
     ymoving-=3;
   }
 }
-void serialEvent(Serial myPort) {
+public void serialEvent(Serial myPort) {
   int inByte = myPort.read();
   if (firstContact == false) {
     if (inByte == 'A') {
@@ -110,7 +107,7 @@ void serialEvent(Serial myPort) {
     }
   }
 }
-void polygon(float x, float y, float radius, int npoints) {
+public void polygon(float x, float y, float radius, int npoints) {
   float angle = TWO_PI / npoints;
   beginShape();
   for (float a = 0; a < TWO_PI; a += angle) {
@@ -120,10 +117,20 @@ void polygon(float x, float y, float radius, int npoints) {
   }
   endShape(CLOSE);
 }
-void keyPressed() {
+public void keyPressed() {
   if (key == 'r') {
     saveFrame("pic-####.png");
     delay(300);
     background(255);
+  }
+}
+  public void settings() {  fullScreen(); }
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "Joystick_Constant_Moving_Attempt" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
   }
 }

@@ -1,8 +1,11 @@
 //test
 int firstSensor = 0; // first analog sensor
 int secondSensor = 0; // second analog sensor
+<<<<<<< HEAD
+=======
 int thirdSensor = 0;
 
+>>>>>>> master
 int inByte = 0;   // incoming serial byte
 void setup()
 {
@@ -29,11 +32,15 @@ void loop()
  delay(10);
  // read second analog input, divide by 4 to make the range 0-255:
  secondSensor = analogRead(1)/4;
+<<<<<<< HEAD
+
+=======
  thirdSensor = digitalRead(2);
+>>>>>>> master
  // send sensor values:
  Serial.write(firstSensor);
  Serial.write(secondSensor);
- Serial.write(thirdSensor);
+
  }
 }
 void establishContact() {
