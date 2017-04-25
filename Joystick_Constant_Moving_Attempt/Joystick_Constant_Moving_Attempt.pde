@@ -100,6 +100,8 @@ void polygon(float x, float y, float radius, int npoints) {
 }
 void keyPressed() {
   if (key == 'r') {
+    saveFrame("pic-####.png");
+    delay(300);
     background(255);
   }
 }
