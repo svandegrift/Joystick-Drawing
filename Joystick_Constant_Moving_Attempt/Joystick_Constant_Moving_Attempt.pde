@@ -61,6 +61,11 @@ void draw() {
     xmoving+=3;
     ymoving-=3;
   }
+  if(refresh == 0){
+    saveFrame("pic-####.png");
+    delay(100);
+    background(255);
+  }
 }
 void serialEvent(Serial myPort) {
   int inByte = myPort.read();
@@ -102,6 +107,9 @@ void keyPressed() {
   if (key == 'r') {
     saveFrame("pic-####.png");
     delay(300);
+    background(255);
+    text("Image Saved!", width/2-100, height/2);
+    delay(500);
     background(255);
   }
 }
