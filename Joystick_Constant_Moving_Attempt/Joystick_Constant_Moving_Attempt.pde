@@ -39,6 +39,7 @@ void draw() {
   }
   fill(255);
   ellipse(xmoving, ymoving, 10, 10);
+  /// MOVING STRAIGHT ///
   if (xpos < 127) {
     xmoving-=5; //Left
   } else if (xpos > 127) {
@@ -48,6 +49,7 @@ void draw() {
   } else if (ypos < 122) {
     ymoving-=5;   
   }
+  //// MOVING ANGLES //////
   if (xpos < 127 && ypos < 122) {
     xmoving-=3;
     ymoving-=3;
@@ -61,12 +63,28 @@ void draw() {
     xmoving+=3;
     ymoving-=3;
   }
+  ///// GOES OFF SCREEN ////
+  if(xmoving > width){
+  xmoving = 0;
+  }
+  if(xmoving < 0){
+  xmoving = width;
+  }
+  if(ymoving > height){
+  ymoving = 0;
+  }
+  if(ymoving < 0){
+  ymoving = height;
+  }
+  ////SAVE BUTTON ////
   if(refresh == 0){
     saveFrame("pic-####.png");
     delay(100);
     background(255);
   }
 }
+
+//// GET ARDUINO INPUT ///////
 void serialEvent(Serial myPort) {
   int inByte = myPort.read();
   if (firstContact == false) {
@@ -81,10 +99,7 @@ void serialEvent(Serial myPort) {
     if (serialCount > 2 ) {
       xpos = serialInArray[0]; // 127 is Middle
       ypos = serialInArray[1]; // 121 is Middle
-      //xpos = map(serialInArray[0], 0, 1000, 0, 1000);
-      //ypos = map(serialInArray[1], 0, 1000, 0, 1000);
       refresh = serialInArray[2];
-      // print the values (for debugging purposes only):
       println(xpos + " " + ypos + " " + refresh);
       // Send a capital A to request new sensor readings:
       myPort.write('A');
@@ -107,9 +122,6 @@ void keyPressed() {
   if (key == 'r') {
     saveFrame("pic-####.png");
     delay(300);
-    background(255);
-    text("Image Saved!", width/2-100, height/2);
-    delay(500);
     background(255);
   }
 }
